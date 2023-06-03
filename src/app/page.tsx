@@ -4,8 +4,10 @@ import styles from './page.module.scss'
 import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import cx from 'classnames'
 
+
+const w = (window as any)
+
 const checkPosition = (setShowNav: Dispatch<SetStateAction<boolean>>) => {
-    const w = (window as any)
     w.currentScrollPos = window.pageYOffset;
     if (w.prevScrollPos > w.currentScrollPos || w.disabledCheck) {
         setShowNav(true)
@@ -15,14 +17,13 @@ const checkPosition = (setShowNav: Dispatch<SetStateAction<boolean>>) => {
     w.prevScrollPos = w.currentScrollPos;
 }
 
-const keys = {37: 1, 38: 1, 39: 1, 40: 1};
-function preventDefault(e: any) {
+const keys: {[key: string]: number} = {37: 1, 38: 1, 39: 1, 40: 1};
+function preventDefault(e: Event) {
     console.log(123)
     e.preventDefault();
 }
 
-function preventDefaultForScrollKeys(e: any) {
-    // @ts-ignore
+function preventDefaultForScrollKeys(e: KeyboardEvent) {
     if (keys[e.keyCode]) {
         preventDefault(e);
         return false;
@@ -68,15 +69,11 @@ const addAndScroll = ({setShowTopBlock, setShowBottomBlock} : t) => {
 
     setTimeout(() => {
         setShowBottomBlock(false)
-    }, 1000)
-
-    setTimeout(() => {
         enableScroll()
-    }, 2000)
+    }, 800)
 }
 
 const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
-    const w = (window as any)
     // prevents hiding menu on scroll bottom while leaving top block
     w.disabledCheck = true
     disableScroll()
@@ -94,11 +91,8 @@ const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
     setTimeout(() => {
         setShowTopBlock(false)
         w.disabledCheck = false
-    }, 1000)
-
-    setTimeout(() => {
         enableScroll()
-    }, 2000)
+    }, 800)
 }
 
 export default function Home() {
@@ -108,11 +102,10 @@ export default function Home() {
     const navRef = useRef<HTMLElement>(null)
 
     useEffect(() => {
-        const w = (window as any)
         w.prevScrollPos = window.pageYOffset;
         window.addEventListener("scroll", () => checkPosition(setShowNav))
 
-        return () => window.removeEventListener("scroll", () => checkPosition(setShowNav))
+        return () => window.removeEventListener("scroll", (r) => checkPosition(setShowNav))
     }, [])
 
     useEffect(() => {
