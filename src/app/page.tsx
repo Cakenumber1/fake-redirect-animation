@@ -34,6 +34,7 @@ function disableScroll() {
     window.addEventListener('DOMMouseScroll', preventDefault, {passive: false}); // older FF
     window.addEventListener(wheelEvent, preventDefault, {passive: false}); // modern desktop
     window.addEventListener('touchmove', preventDefault, {passive: false}); // mobile
+    window.addEventListener('touchstart', preventDefault, {passive: false}); // mobile
     window.addEventListener('keydown', preventDefaultForScrollKeys, {passive: false});
 }
 
@@ -42,6 +43,7 @@ function enableScroll({setShowBottomBlock, setShowTopBlock}: t2) {
     window.removeEventListener('DOMMouseScroll', preventDefault, false);
     window.removeEventListener(wheelEvent, preventDefault, false);
     window.removeEventListener('touchmove', preventDefault, false);
+    window.removeEventListener('touchstart', preventDefault, false);
     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
 
     setShowBottomBlock?.(false)
@@ -74,7 +76,7 @@ const addAndScroll = ({setShowTopBlock, setShowBottomBlock} : t) => {
 
     setTimeout(() => {
         enableScroll({setShowBottomBlock})
-    }, 1000)
+    }, 2000)
 }
 
 const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
@@ -92,7 +94,7 @@ const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
 
     setTimeout(() => {
         enableScroll({setShowTopBlock})
-    }, 1000)
+    }, 2000)
 }
 
 export default function Home() {
