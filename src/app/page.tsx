@@ -38,26 +38,18 @@ function disableScroll() {
     window.addEventListener('keydown', preventDefaultForScrollKeys, {passive: false});
 }
 
-function enableScroll({setShowBottomBlock, setShowTopBlock}: t2) {
+function enableScroll() {
     let wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
     window.removeEventListener('DOMMouseScroll', preventDefault, false);
     window.removeEventListener(wheelEvent, preventDefault, false);
     window.removeEventListener('touchmove', preventDefault, false);
     window.removeEventListener('touchstart', preventDefault, false);
     window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-
-    setShowBottomBlock?.(false)
-    setShowTopBlock?.(false)
 }
 
 type t = {
     setShowTopBlock: Dispatch<SetStateAction<boolean>>
     setShowBottomBlock: Dispatch<SetStateAction<boolean>>
-}
-
-type t2 = {
-    setShowBottomBlock?: Dispatch<SetStateAction<boolean>>
-    setShowTopBlock?: Dispatch<SetStateAction<boolean>>
 }
 
 const addAndScroll = ({setShowTopBlock, setShowBottomBlock} : t) => {
@@ -75,7 +67,11 @@ const addAndScroll = ({setShowTopBlock, setShowBottomBlock} : t) => {
     })
 
     setTimeout(() => {
-        enableScroll({setShowBottomBlock})
+        setShowBottomBlock(false)
+    }, 1000)
+
+    setTimeout(() => {
+        enableScroll()
     }, 2000)
 }
 
@@ -93,7 +89,11 @@ const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
     })
 
     setTimeout(() => {
-        enableScroll({setShowTopBlock})
+        setShowTopBlock(false)
+    }, 1000)
+
+    setTimeout(() => {
+        enableScroll()
     }, 2000)
 }
 

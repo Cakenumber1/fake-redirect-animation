@@ -43,7 +43,7 @@
 
 .topBlock {
   position: relative;
-  padding-top: 100px;
+  padding-top: 75px;
   min-height: 100vh;
   max-height: 100vh;
   display: none;
@@ -54,11 +54,14 @@
 }
 
 .bottomBlock {
-  padding-top: 100px;
+  padding: 75px 30px 0;
   display: none;
 
   &.show {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   }
 }
 
