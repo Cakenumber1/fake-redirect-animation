@@ -7,7 +7,7 @@ import cx from 'classnames'
 const checkPosition = (setShowNav: Dispatch<SetStateAction<boolean>>) => {
     const w = (window as any)
     w.currentScrollPos = window.pageYOffset;
-    if (w.prevScrollPos > w.currentScrollPos) {
+    if (w.prevScrollPos > w.currentScrollPos || w.disabledCheck) {
         setShowNav(true)
     } else {
         setShowNav(false)
@@ -76,6 +76,9 @@ const addAndScroll = ({setShowTopBlock, setShowBottomBlock} : t) => {
 }
 
 const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
+    const w = (window as any)
+    // prevents hiding menu on scroll bottom while leaving top block
+    w.disabledCheck = true
     disableScroll()
 
     setShowBottomBlock(true)
@@ -90,6 +93,7 @@ const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
 
     setTimeout(() => {
         setShowTopBlock(false)
+        w.disabledCheck = false
     }, 1000)
 
     setTimeout(() => {
@@ -106,10 +110,9 @@ export default function Home() {
     useEffect(() => {
         const w = (window as any)
         w.prevScrollPos = window.pageYOffset;
-        window.addEventListener("scroll", (event) => checkPosition(setShowNav))
+        window.addEventListener("scroll", () => checkPosition(setShowNav))
 
-        return () => window.removeEventListener("scroll", (event) => checkPosition(setShowNav))
-
+        return () => window.removeEventListener("scroll", () => checkPosition(setShowNav))
     }, [])
 
     useEffect(() => {
