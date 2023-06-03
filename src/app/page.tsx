@@ -5,9 +5,8 @@ import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
 import cx from 'classnames'
 
 
-const w = (window as any)
-
 const checkPosition = (setShowNav: Dispatch<SetStateAction<boolean>>) => {
+    const w = (window as any)
     w.currentScrollPos = window.pageYOffset;
     if (w.prevScrollPos > w.currentScrollPos || w.disabledCheck) {
         setShowNav(true)
@@ -74,6 +73,7 @@ const addAndScroll = ({setShowTopBlock, setShowBottomBlock} : t) => {
 }
 
 const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
+    const w = (window as any)
     // prevents hiding menu on scroll bottom while leaving top block
     w.disabledCheck = true
     disableScroll()
@@ -102,6 +102,7 @@ export default function Home() {
     const navRef = useRef<HTMLElement>(null)
 
     useEffect(() => {
+        const w = (window as any)
         w.prevScrollPos = window.pageYOffset;
         window.addEventListener("scroll", () => checkPosition(setShowNav))
 
