@@ -1,0 +1,97 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.content {
+  padding:15px 15px 2500px;
+  font-size:30px;
+  margin-top:30px;
+}
+
+.navbar {
+  background-color: #333;
+  position: fixed;
+  top: -50px;
+  width: 100%;
+  height: 50px;
+  display: block;
+  transition: top 0.3s;
+
+  a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 15px;
+    text-decoration: none;
+    font-size: 17px;
+
+    &:hover {
+      background-color: #ddd;
+      color: black;
+    }
+  }
+
+  &.show {
+    top: 0
+  }
+}
+
+.topBlock {
+  position: relative;
+  padding-top: 100px;
+  min-height: 100vh;
+  max-height: 100vh;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.bottomBlock {
+  padding-top: 100px;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+@keyframes appearAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// add to all hood
+@mixin appear {
+  opacity: 0;
+  animation-name: appearAnimation;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards
+}
+
+.animationTrigger {
+  border: none;
+  background: none;
+  color: red;
+
+  cursor: pointer;
+
+  &.drawing {
+    position: absolute;
+    bottom: 50px;
+    @include appear;
+  }
+}
+
+
