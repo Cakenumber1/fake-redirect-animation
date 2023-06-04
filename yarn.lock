@@ -162,11 +162,6 @@
   dependencies:
     tslib "^2.4.0"
 
-"@types/globalthis@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@types/globalthis/-/globalthis-1.0.1.tgz#5310a812c2ef3905b821a1b219ae0e0d12d0e5f1"
-  integrity sha512-gPIOjEAp9ZysUzOYlwuaedjwxRW9QvMhlN5PSWCXYEw894QB/84YgXSsei8yE6D/FstC1QIrHgO7UfQ2A37M0Q==
-
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
