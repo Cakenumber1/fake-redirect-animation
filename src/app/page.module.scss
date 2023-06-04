@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 100vh;
 }
 
 .content {
@@ -45,8 +44,6 @@
 .topBlock {
   position: relative;
   padding-top: 75px;
-  min-height: 100vh;
-  max-height: 100vh;
   display: none;
 
   &.show {
@@ -93,7 +90,7 @@
 
   &.drawing {
     position: absolute;
-    bottom: 50px;
+    bottom: 20px;
     @include appear;
   }
 }

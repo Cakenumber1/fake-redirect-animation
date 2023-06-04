@@ -1,14 +1,14 @@
 "use client";
 
 import styles from './page.module.scss'
-import {Dispatch, SetStateAction, useEffect, useRef, useState} from "react";
+import {Dispatch, SetStateAction, useEffect, useLayoutEffect, useRef, useState} from "react";
 import cx from 'classnames'
-
+import smoothscroll from 'smoothscroll-polyfill';
 
 const checkPosition = (setShowNav: Dispatch<SetStateAction<boolean>>) => {
     const w = (window as any)
     w.currentScrollPos = window.pageYOffset;
-    if (w.prevScrollPos > w.currentScrollPos || w.disabledCheck) {
+    if (w.currentScrollPos === 0 || w.prevScrollPos > w.currentScrollPos || w.disabledCheck) {
         setShowNav(true)
     } else {
         setShowNav(false)
@@ -54,21 +54,33 @@ type t = {
 
 const addAndScroll = ({setShowTopBlock, setShowBottomBlock} : t) => {
     disableScroll()
+    const w = (window as any)
+    // prevents hiding menu on scroll top ios
+    w.disabledCheck = true
     setShowTopBlock(true)
 
-    // no clue why macroEvent not working here
-    window.scrollBy({
-        top: 1,
+    // put animation in same block as rerender on elem appear to prevent scroll to top
+    window.requestAnimationFrame(() => {
+        window.scrollTo({
+            top: document.documentElement.clientHeight,
+        })
     })
 
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-    })
+    // ios 100ms delay
+    setTimeout(() => {
+        window.scroll({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, 100)
 
     setTimeout(() => {
-        setShowBottomBlock(false)
         enableScroll()
+        // ios 100ms delay
+        setTimeout(() => {
+            setShowBottomBlock(false)
+            w.disabledCheck = false
+        }, 100)
     }, 800)
 }
 
@@ -82,49 +94,71 @@ const scrollAndRemove = ({setShowTopBlock, setShowBottomBlock} : t) => {
 
     // otherwise async setShowBottomBlock happens after than scrollTo is applied
     setTimeout(() => {
-        window.scrollTo({
+        // ios 100ms delay
+        window.scrollBy({
             top: window.innerHeight,
             behavior: "smooth",
         })
-    })
+    }, 100)
 
     setTimeout(() => {
-        setShowTopBlock(false)
-        w.disabledCheck = false
         enableScroll()
+        // ios 100ms delay
+        setTimeout(() => {
+            setShowTopBlock(false)
+            w.disabledCheck = false
+        }, 100)
     }, 800)
 }
 
+const appHeight = (setHeight:  Dispatch<SetStateAction<number>>) => {
+    setHeight(window.innerHeight)
+}
+
+
+
 export default function Home() {
     const [showNav, setShowNav] = useState(true)
+    const [height, setHeight] = useState(0)
     const [showTopBlock, setShowTopBlock] = useState(false)
     const [showBottomBlock, setShowBottomBlock] = useState(true)
     const navRef = useRef<HTMLElement>(null)
 
     useEffect(() => {
         const w = (window as any)
+        smoothscroll.polyfill();
         w.prevScrollPos = window.pageYOffset;
         window.addEventListener("scroll", () => checkPosition(setShowNav))
+        window.addEventListener('resize', () => appHeight(setHeight))
+        appHeight(setHeight)
 
-        return () => window.removeEventListener("scroll", (r) => checkPosition(setShowNav))
+        return () => {
+            window.removeEventListener("scroll", () => checkPosition(setShowNav))
+            window.removeEventListener('resize', () => appHeight(setHeight))
+        }
     }, [])
 
-    useEffect(() => {
+    // ios prevent scroll on topBlock display: none
+    useLayoutEffect(() => {
+        if (!showTopBlock) {
+            window.scrollTo({top: 0})
+        }
 
-    }, [])
+    }, [showTopBlock])
 
 
     return (
-        <main className={styles.main}>
+        <main className={styles.main} style={{minHeight: `${height}px`}}>
             <nav ref={navRef} className={cx(styles.navbar, {[styles.show]: showNav})}>
                 <a href="#home">Home</a>
                 <a href="#news">News</a>
                 <a href="#contact">Contact</a>
             </nav>
 
-            <div className={cx(styles.topBlock, {[styles.show]: showTopBlock})}>
+            <div style={{height: `${height}px`}} className={cx(styles.topBlock, {[styles.show]: showTopBlock})}>
                 <button
                     onClick={() => scrollAndRemove({setShowTopBlock, setShowBottomBlock})}
+                    // onClick={() => setShowBottomBlock(true)}
                     className={cx(styles.animationTrigger, styles.drawing)}
                 >вниз
                 </button>

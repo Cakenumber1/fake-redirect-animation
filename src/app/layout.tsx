@@ -1,6 +1,9 @@
 import './globals.scss'
 import { Inter } from 'next/font/google'
 
+// todo: impl globalThis polyfill
+import globalthis from 'globalthis'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
