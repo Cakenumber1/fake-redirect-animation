@@ -1,0 +1,56 @@
+.topBlock {
+  position: relative;
+  padding-top: 75px;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.bottomBlock {
+  position: relative;
+  padding: 75px 30px 0;
+  display: none;
+
+  &.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@keyframes appearAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// add to all hood
+@mixin appear {
+  opacity: 0;
+  animation-name: appearAnimation;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards
+}
+
+.animationTrigger {
+  border: none;
+  background: none;
+  color: red;
+
+  cursor: pointer;
+
+  &.drawing {
+    position: absolute;
+    bottom: 20px;
+    @include appear;
+  }
+}
+
+
