@@ -1,7 +1,13 @@
 import styles from './bottomBlock.module.scss'
 import cx from 'classnames'
 
-export default function BottomBlock({showBottomBlock, addAndScrollApply, videoPos}) {
+type BottomBlockProps = {
+  showBottomBlock: boolean,
+  addAndScrollApply: () => void,
+  videoPos: number
+}
+
+const BottomBlock = ({showBottomBlock, addAndScrollApply, videoPos}: BottomBlockProps) => {
   return (
     <div className={cx(styles.bottomBlock, {[styles.show]: showBottomBlock})}>
       <button
@@ -20,7 +26,7 @@ export default function BottomBlock({showBottomBlock, addAndScrollApply, videoPo
           width={videoPos}
         >
           <source src="http://www.adrianparr.com/download/keyboard-video.mp4" type="video/mp4" />
-          Your browser doesn't support HTML5 video tag.
+          Your browser doesnt support HTML5 video tag.
         </video>
       </div>
       <div className={styles.content}>
@@ -38,3 +44,5 @@ export default function BottomBlock({showBottomBlock, addAndScrollApply, videoPo
     </div>
   )
 }
+
+export default BottomBlock
