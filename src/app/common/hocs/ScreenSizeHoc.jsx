@@ -1,8 +1,9 @@
+/* eslint-disable */
+
 import React from 'react'
 
 const ScreenSize = Component => (
-  // eslint-disable-next-line
-  class extends React.Component<any, any> {
+  class extends React.Component {
     state = {
       width: null,
       height: null,
