@@ -49,7 +49,7 @@ const TopBlock = ({height, showTopBlock, scrollAndRemoveApply}: TopBlockProps) =
 
   const checkKeyClick = (event: KeyboardEvent) => {
     if (canvas) {
-      if (event.key === 'Enter') {
+      if (event.code === 'Enter') {
         // Cancel the default action, just in case
         event.preventDefault();
         // Trigger download
@@ -57,14 +57,14 @@ const TopBlock = ({height, showTopBlock, scrollAndRemoveApply}: TopBlockProps) =
         setCanvas(null)
       }
     } else {
-      if (event.key === 'Enter') {
+      if (event.code === 'Enter') {
         // Cancel the default action, just in case
         event.preventDefault();
         // Trigger screenshot
         makeScreenShot()
       }
 
-      if (event.key.toLowerCase() === 'c') {
+      if (event.code === 'KeyC') {
         // Cancel the default action, just in case
         event.preventDefault();
         // Trigger clear
