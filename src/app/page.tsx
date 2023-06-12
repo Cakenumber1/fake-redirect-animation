@@ -137,9 +137,8 @@ const appHeight = (setHeight: Dispatch<SetStateAction<number>>) => {
 }
 
 
-const Home = ({screenSize}) => {
+const Home = ({screenSize} : any) => {
   console.log(screenSize)
-  console.log(screen.orientation.type)
   const [showNav, setShowNav] = useState(true)
   const [height, setHeight] = useState(0)
   const [showTopBlock, setShowTopBlock] = useState(false)
@@ -177,8 +176,12 @@ const Home = ({screenSize}) => {
   return (
     <main className={styles.main} style={{minHeight: `${height}px`}}>
       <Nav ref={navRef} showNav={showNav}/>
-      <TopBlock showTopBlock={showTopBlock} height={height} scrollAndRemoveApply={scrollAndRemoveApply}/>
-      <BottomBlock showBottomBlock={showBottomBlock} addAndScrollApply={addAndScrollApply} videoPos={videoPos}/>
+      {showTopBlock &&
+        <TopBlock showTopBlock={showTopBlock} height={height} scrollAndRemoveApply={scrollAndRemoveApply}/>
+      }
+      {showBottomBlock &&
+        <BottomBlock showBottomBlock={showBottomBlock} addAndScrollApply={addAndScrollApply} videoPos={videoPos}/>
+      }
     </main>
   )
 }
