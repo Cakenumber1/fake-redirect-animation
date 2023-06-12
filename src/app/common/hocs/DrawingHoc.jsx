@@ -222,7 +222,7 @@ const DrawingHoc = Component => (props) => {
     }
   }, [])
 
-  if (props.isMenuOpen) {
+  if (props.isMenuOpen || props.forceClear) {
     clearAll()
   }
 
