@@ -1,0 +1,117 @@
+.topBlock {
+  width: 100vw;
+  display: none;
+
+  &.show {
+    display: block;
+  }
+}
+
+.bottomBlock {
+  position: relative;
+  padding: 75px 30px 0;
+  display: none;
+
+  &.show {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@keyframes appearAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// add to all hood
+@mixin appear {
+  opacity: 0;
+  animation-name: appearAnimation;
+  animation-duration: 1s;
+  animation-delay: 1.2s;
+  animation-fill-mode: forwards
+}
+
+.animationTrigger {
+  border: none;
+  background: none;
+  color: red;
+
+  cursor: pointer;
+
+  &.drawing {
+    position: absolute;
+    bottom: 20px;
+    transform: translateX(calc(50vw - 14px));
+
+    @include appear;
+  }
+}
+
+.buttonContainer {
+  position: absolute;
+  bottom: 108px;
+
+  width: 48px;
+  height: 48px;
+
+  border-radius: 60px;
+
+  cursor: pointer;
+
+  @include appear;
+
+  &.disabled {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: 60px;
+      background: white;
+      opacity: .4;
+
+      cursor: default;
+    }
+  }
+
+  &.screenshot {
+    right: 120px;
+
+    background: linear-gradient(101.83deg, #FF1E00 8.66%, #FF7A00 91.34%);
+    border: none;
+  }
+
+  &.clear {
+    right: 48px;
+
+    background: rgba(220,220,220, 0.3);
+  }
+
+  button {
+    position: relative;
+    top: 0;
+    left: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 60px;
+
+    background: none;
+    border: none;
+
+    cursor: pointer;
+  }
+}
+
+
